@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   getActiveDay,
   trip,
@@ -111,6 +111,15 @@ function statusLabel(status: DayStop["status"]) {
   return "To fill in";
 }
 
+function dayParts(iso: string) {
+  const d = new Date(`${iso}T12:00:00`);
+  return {
+    weekday: d.toLocaleDateString("en-GB", { weekday: "short" }),
+    day: String(d.getDate()),
+    month: d.toLocaleDateString("en-GB", { month: "short" }),
+  };
+}
+
 function questLabel(status: Quest["status"]) {
   if (status === "done") return "Done";
   if (status === "cooking") return "In progress";
@@ -145,6 +154,15 @@ export default function Home() {
   const crewOnDay =
     selected.crewIds?.map((id) => trip.crew.find((c) => c.id === id)!).filter(Boolean) ??
     trip.crew;
+  const activeChipRef = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    activeChipRef.current?.scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+      block: "nearest",
+    });
+  }, [selectedId]);
 
   return (
     <div className={styles.shell}>
@@ -153,7 +171,7 @@ export default function Home() {
       <header className={styles.topbar}>
         <a className={styles.brand} href="#top">
           <img src="/logo.svg" alt="" width={28} height={28} className={styles.brandMark} />
-          Northbound
+          <span className={styles.brandText}>Northbound</span>
         </a>
         <nav className={styles.nav}>
           <a href="#board">Board</a>
@@ -165,8 +183,17 @@ export default function Home() {
       <main id="top">
         <section className={styles.hero}>
           <div className={styles.heroBrand}>
-            <img src="/logo.svg" alt="" width={56} height={56} className={styles.heroMark} />
-            <p className={styles.kicker}>
+            <img
+              src="/logo.svg"
+              alt=""
+              width={56}
+              height={56}
+              className={styles.heroMark}
+            />
+            <p className={`${styles.kicker} ${styles.kickerShort}`}>
+              August 2026 · Tallinn → Beijing
+            </p>
+            <p className={`${styles.kicker} ${styles.kickerFull}`}>
               August 2026 · Tallinn → SPb → Moscow → Yek → Irkutsk → UB → Beijing
             </p>
           </div>
@@ -201,22 +228,22 @@ export default function Home() {
 
           <div className={styles.boardGrid}>
             <div className={styles.dayRail} role="tablist" aria-label="Trip days">
-              {trip.days.map((day, i) => {
+              {trip.days.map((day) => {
                 const active = day.id === selected.id;
+                const parts = dayParts(day.date);
                 return (
                   <button
                     key={day.id}
+                    ref={active ? activeChipRef : null}
                     role="tab"
                     aria-selected={active}
-                    className={`${styles.dayChip} ${active ? styles.dayChipActive : ""} ${styles[`status_${day.status}`]}`}
+                    aria-label={day.label}
+                    className={`${styles.dayChip} ${active ? styles.dayChipActive : ""}`}
                     onClick={() => setSelectedId(day.id)}
                   >
-                    <span className={styles.dayIndex}>{String(i + 1).padStart(2, "0")}</span>
-                    <span className={styles.dayChipBody}>
-                      <span className={styles.dayChipLabel}>{day.label}</span>
-                      <span className={styles.dayChipCity}>{day.city}</span>
-                    </span>
-                    <span className={styles.dayChipStatus}>{statusLabel(day.status)}</span>
+                    <span className={styles.dayWeekday}>{parts.weekday}</span>
+                    <span className={styles.dayNum}>{parts.day}</span>
+                    <span className={styles.dayMonth}>{parts.month}</span>
                   </button>
                 );
               })}
