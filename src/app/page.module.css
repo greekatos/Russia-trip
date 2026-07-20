@@ -1,142 +1,938 @@
-.page {
-  --background: #fafafa;
-  --foreground: #fff;
-
-  --text-primary: #000;
-  --text-secondary: #666;
-
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
-  --button-secondary-border: #ebebeb;
-
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-geist-sans);
-  background-color: var(--background);
+.shell {
+  position: relative;
+  min-height: 100vh;
+  overflow: clip;
 }
 
-.main {
+.atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 90% 60% at 15% -10%, rgba(110, 176, 196, 0.22), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 90% 10%, rgba(212, 160, 90, 0.12), transparent 50%),
+    radial-gradient(ellipse 80% 40% at 50% 100%, rgba(20, 60, 70, 0.45), transparent 60%),
+    linear-gradient(165deg, #071018 0%, #0c1c28 45%, #08141c 100%);
+}
+
+.atmosphere::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+  background-image:
+    linear-gradient(rgba(231, 240, 244, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(231, 240, 244, 0.03) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(to bottom, black 0%, transparent 70%);
+}
+
+.topbar,
+.hero,
+.nowStrip,
+.quests,
+.board,
+.crew,
+.how,
+.footer {
+  position: relative;
+  z-index: 1;
+}
+
+.topbar {
   display: flex;
-  flex: 1;
-  width: 100%;
-  max-width: 800px;
-  flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  background-color: var(--foreground);
-  padding: 120px 60px;
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 1.25rem 1.5rem;
 }
 
-.intro {
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: 0.02em;
+}
+
+.brandMark {
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.heroBrand {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  text-align: left;
-  gap: 24px;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
-.intro h1 {
-  max-width: 320px;
-  font-size: 40px;
-  font-weight: 600;
-  line-height: 48px;
-  letter-spacing: -2.4px;
-  text-wrap: balance;
-  color: var(--text-primary);
+.heroMark {
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
 }
 
-.intro p {
-  max-width: 440px;
-  font-size: 18px;
-  line-height: 32px;
-  text-wrap: balance;
-  color: var(--text-secondary);
+.kicker {
+  color: var(--glacier);
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 0;
 }
 
-.intro a {
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.ctas {
+.nav {
   display: flex;
-  flex-direction: row;
-  width: 100%;
-  max-width: 440px;
-  gap: 16px;
-  font-size: 14px;
+  gap: 1.25rem;
+  font-size: 0.9rem;
+  color: var(--muted);
 }
 
-.ctas a {
+.nav a {
+  transition: color 0.2s ease;
+}
+
+.nav a:hover {
+  color: var(--frost);
+}
+
+.hero {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: clamp(3rem, 12vh, 7rem) 1.5rem 3.5rem;
+  animation: rise 0.8s ease both;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(3.4rem, 12vw, 7rem);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.25rem;
+}
+
+.tagline {
+  max-width: 34rem;
+  color: var(--muted);
+  font-size: 1.1rem;
+  line-height: 1.55;
+  margin-bottom: 2rem;
+}
+
+.heroActions {
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.btnPrimary,
+.btnGhost {
+  display: inline-flex;
   align-items: center;
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 128px;
-  border: 1px solid transparent;
-  transition: 0.2s;
-  cursor: pointer;
-  width: fit-content;
+  justify-content: center;
+  padding: 0.85rem 1.35rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.btnPrimary {
+  background: var(--signal);
+  color: var(--ink);
+}
+
+.btnPrimary:hover {
+  transform: translateY(-1px);
+  background: #e0b06a;
+}
+
+.btnGhost {
+  border: 1px solid var(--line);
+  color: var(--frost);
+}
+
+.btnGhost:hover {
+  border-color: var(--glacier);
+}
+
+.nowStrip {
+  border-block: 1px solid var(--line);
+  background: rgba(8, 18, 26, 0.55);
+  backdrop-filter: blur(10px);
+  animation: rise 0.9s 0.1s ease both;
+}
+
+.nowInner {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 1.35rem 1.5rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.nowLabel {
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--signal);
+}
+
+.nowText {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 3vw, 1.85rem);
+  font-weight: 600;
+}
+
+.nowMeta {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.quests,
+.board,
+.crew,
+.how {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+}
+
+.sectionHead {
+  margin-bottom: 1.75rem;
+  animation: rise 0.7s ease both;
+}
+
+.sectionHead h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.4rem;
+}
+
+.sectionHead p {
+  color: var(--muted);
+}
+
+.questGrid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.85rem;
+}
+
+.questCard {
+  padding: 1.2rem 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(10, 22, 30, 0.55);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.questCard:hover {
+  transform: translateY(-2px);
+  border-color: rgba(212, 160, 90, 0.45);
+}
+
+.quest_open {
+  box-shadow: inset 3px 0 0 var(--signal);
+}
+
+.quest_cooking {
+  box-shadow: inset 3px 0 0 var(--glacier);
+}
+
+.quest_done {
+  box-shadow: inset 3px 0 0 var(--ok);
+  opacity: 0.72;
+}
+
+.questTop {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.65rem;
+}
+
+.questIconWrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.questIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--signal);
+  flex-shrink: 0;
+}
+
+.quest_cooking .questIcon {
+  color: var(--glacier);
+}
+
+.quest_done .questIcon {
+  color: var(--ok);
+}
+
+.questStatus {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--signal);
+}
+
+.quest_cooking .questStatus {
+  color: var(--glacier);
+}
+
+.quest_done .questStatus {
+  color: var(--ok);
+}
+
+.questOwner {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.questTitle {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.5rem;
+}
+
+.questDetail {
+  color: var(--muted);
+  line-height: 1.55;
+  font-size: 0.95rem;
+}
+
+.boardGrid {
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) 1fr;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.dayRail {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: min(70vh, 640px);
+  overflow: auto;
+  padding-right: 0.25rem;
+}
+
+.dayChip {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 0.75rem;
+  row-gap: 0.15rem;
+  text-align: left;
+  padding: 0.85rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(10, 22, 30, 0.55);
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.dayChip:hover {
+  border-color: rgba(110, 176, 196, 0.35);
+  transform: translateX(2px);
+}
+
+.dayChipActive {
+  border-color: var(--glacier);
+  background: rgba(110, 176, 196, 0.1);
+  box-shadow: inset 3px 0 0 var(--signal);
+}
+
+.dayIndex {
+  grid-row: 1 / span 2;
+  align-self: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.dayChipBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.dayChipLabel {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.dayChipCity {
+  font-weight: 600;
+}
+
+.dayChipStatus {
+  grid-column: 2;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--tbd);
+}
+
+.status_confirmed .dayChipStatus {
+  color: var(--ok);
+}
+
+.status_planned .dayChipStatus {
+  color: var(--planned);
+}
+
+.dayPanel {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  backdrop-filter: blur(12px);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  animation: panelIn 0.35s ease both;
+}
+
+.panelHead {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.panelKicker {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.dot {
+  opacity: 0.5;
+}
+
+.badge_confirmed {
+  color: var(--ok);
+}
+
+.badge_planned {
+  color: var(--planned);
+}
+
+.badge_tbd {
+  color: var(--tbd);
+}
+
+.panelTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.panelPlace {
+  color: var(--glacier);
+  margin-top: 0.25rem;
+}
+
+.wherePill {
+  align-self: flex-start;
+  padding: 0.55rem 0.8rem;
+  border-radius: var(--radius);
+  background: var(--signal-soft);
+  color: var(--signal);
+  font-size: 0.85rem;
+  font-weight: 500;
+  max-width: 18rem;
+  line-height: 1.35;
+}
+
+.panelSummary {
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  max-width: 40rem;
+}
+
+.flight {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.15rem 1.2rem;
+  margin-bottom: 1.5rem;
+  background: rgba(7, 16, 24, 0.45);
+}
+
+.flightTop {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.65rem;
+  margin-bottom: 1.1rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.flightTop strong {
+  color: var(--frost);
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+}
+
+.flightRef {
+  margin-left: auto;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: var(--signal);
+}
+
+.flightRoute {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.flightTime {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.85rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.flightCity {
+  display: block;
+  margin-top: 0.15rem;
+  font-weight: 600;
+}
+
+.flightCode {
+  display: block;
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-top: 0.15rem;
+}
+
+.flightLine {
+  width: 4.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.flightLine span {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--glacier), transparent);
+  position: relative;
+}
+
+.flightLine span::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  border-right: 1px solid var(--glacier);
+  border-top: 1px solid var(--glacier);
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.flightMeta {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.train {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.15rem 1.2rem;
+  margin-bottom: 1.5rem;
+  background: rgba(7, 16, 24, 0.45);
+}
+
+.stationBlock {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin: 0.5rem 0 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.stationName {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.stationAddr {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 0.45rem;
+}
+
+.stationTip {
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  margin-bottom: 0.55rem;
+}
+
+.mapLink {
+  display: inline-block;
+  color: var(--glacier);
+  font-size: 0.88rem;
+  font-weight: 600;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.mapLink:hover {
+  color: var(--frost);
+  border-bottom-color: var(--glacier);
+}
+
+.seatsBlock {
+  margin-bottom: 1rem;
+}
+
+.seatList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.seatList li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.35rem 1rem;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+}
+
+.seatList li span:last-child {
+  color: var(--signal);
   font-weight: 500;
 }
 
-a.primary {
-  background: var(--text-primary);
-  color: var(--background);
-  gap: 8px;
+.pdfBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  padding: 0.75rem 1.1rem;
+  border-radius: var(--radius);
+  background: var(--signal);
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 0.9rem;
+  transition: transform 0.2s ease, background 0.2s ease;
 }
 
-a.secondary {
-  border-color: var(--button-secondary-border);
+.pdfBtn:hover {
+  transform: translateY(-1px);
+  background: #e0b06a;
 }
 
-/* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
-  }
+.twoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
 
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
+.blockTitle {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--glacier);
+  margin-bottom: 0.7rem;
+}
+
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.list li {
+  position: relative;
+  padding-left: 1rem;
+  line-height: 1.45;
+  color: var(--frost);
+}
+
+.list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--signal);
+}
+
+.pendingItem {
+  color: var(--signal) !important;
+  font-weight: 500;
+}
+
+.pendingItem::before {
+  background: var(--signal) !important;
+  box-shadow: 0 0 0 3px var(--signal-soft);
+}
+
+.empty {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.crewOnDay {
+  border-top: 1px solid var(--line);
+  padding-top: 1.25rem;
+}
+
+.crewPills {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.crewPills li {
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+}
+
+.crewGrid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.85rem;
+}
+
+.crewCard {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(10, 22, 30, 0.5);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.crewCard:hover {
+  border-color: rgba(212, 160, 90, 0.4);
+  transform: translateY(-2px);
+}
+
+.crewInitial {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--signal-soft);
+  color: var(--signal);
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+.crewName {
+  font-weight: 600;
+  margin-bottom: 0.15rem;
+}
+
+.crewShort {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.howSteps {
+  list-style: none;
+  counter-reset: step;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  max-width: 40rem;
+}
+
+.howSteps li {
+  counter-increment: step;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.85rem;
+  align-items: baseline;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(10, 22, 30, 0.45);
+  line-height: 1.5;
+}
+
+.howSteps li::before {
+  content: counter(step, decimal-leading-zero);
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--signal);
+}
+
+.howSteps code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.88em;
+  color: var(--glacier);
+  background: rgba(110, 176, 196, 0.1);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+
+.footer {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--line);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@media (max-width: 600px) {
-  .main {
-    padding: 48px 24px;
+@keyframes panelIn {
+  from {
+    opacity: 0.4;
+    transform: translateY(6px);
   }
-
-  .intro {
-    gap: 16px;
-  }
-
-  .intro h1 {
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -1.92px;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert();
+@media (max-width: 860px) {
+  .questGrid {
+    grid-template-columns: 1fr;
   }
 
-  .page {
-    --background: #000;
-    --foreground: #000;
+  .boardGrid {
+    grid-template-columns: 1fr;
+  }
 
-    --text-primary: #ededed;
-    --text-secondary: #999;
+  .dayRail {
+    flex-direction: row;
+    max-height: none;
+    overflow-x: auto;
+    padding-bottom: 0.35rem;
+    scroll-snap-type: x mandatory;
+  }
 
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-    --button-secondary-border: #1a1a1a;
+  .dayChip {
+    min-width: 168px;
+    scroll-snap-align: start;
+  }
+
+  .dayChip:hover {
+    transform: none;
+  }
+
+  .twoCol,
+  .stationBlock {
+    grid-template-columns: 1fr;
+  }
+
+  .flightRoute {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .flightLine {
+    width: 100%;
+    height: 1.5rem;
+  }
+
+  .flightLine span {
+    height: 100%;
+    width: 1px;
+    margin: 0 auto;
+    background: linear-gradient(180deg, transparent, var(--glacier), transparent);
+  }
+
+  .flightLine span::after {
+    right: 50%;
+    top: auto;
+    bottom: 0;
+    transform: translateX(50%) rotate(135deg);
+  }
+
+  .flightRef {
+    margin-left: 0;
+  }
+
+  .nav {
+    gap: 0.75rem;
+    font-size: 0.78rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero,
+  .nowStrip,
+  .sectionHead,
+  .dayPanel {
+    animation: none;
+  }
+
+  .btnPrimary:hover,
+  .crewCard:hover,
+  .dayChip:hover,
+  .questCard:hover {
+    transform: none;
   }
 }
