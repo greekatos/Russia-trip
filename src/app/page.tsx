@@ -285,7 +285,12 @@ export default function Home() {
                       <span className={styles.flightCity}>
                         {selected.flight.from.city}
                       </span>
-                      <span className={styles.flightCode}>{selected.flight.from.code}</span>
+                      <span className={styles.flightCode}>
+                        {selected.flight.from.code}
+                        {selected.flight.from.airport
+                          ? ` · ${selected.flight.from.airport}`
+                          : ""}
+                      </span>
                     </div>
                     <div className={styles.flightLine} aria-hidden>
                       <span />
