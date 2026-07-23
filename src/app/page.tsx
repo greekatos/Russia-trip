@@ -6,9 +6,88 @@ import {
   trip,
   type DayStop,
   type Quest,
+  type StayInfo,
   type TrainInfo,
 } from "@/data/trip";
 import styles from "./page.module.css";
+
+function StayCard({ stay }: { stay: StayInfo }) {
+  return (
+    <div className={styles.stay}>
+      <div className={styles.flightTop}>
+        <span>Hotel</span>
+        <strong>{stay.name}</strong>
+        <span className={styles.flightRef}>No. {stay.bookingNo}</span>
+      </div>
+
+      <div className={styles.stayGrid}>
+        <div>
+          <h4 className={styles.blockTitle}>Check-in</h4>
+          <p className={styles.stayValue}>{stay.checkIn}</p>
+        </div>
+        <div>
+          <h4 className={styles.blockTitle}>Check-out</h4>
+          <p className={styles.stayValue}>{stay.checkOut}</p>
+        </div>
+        <div>
+          <h4 className={styles.blockTitle}>Room</h4>
+          <p className={styles.stayValue}>
+            {stay.roomType} · {stay.rooms} room · {stay.guests} guests ·{" "}
+            {stay.nights} night
+          </p>
+        </div>
+        <div>
+          <h4 className={styles.blockTitle}>Access code</h4>
+          <p className={styles.stayValue}>{stay.accessCode}</p>
+        </div>
+      </div>
+
+      <div className={styles.stationBlock}>
+        <div>
+          <h4 className={styles.blockTitle}>Address</h4>
+          <p className={styles.stationName}>{stay.name}</p>
+          <p className={styles.stationAddr}>{stay.address}</p>
+          <a
+            className={styles.mapLink}
+            href={stay.mapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Open in Yandex Maps
+          </a>
+        </div>
+        <div>
+          <h4 className={styles.blockTitle}>Contact</h4>
+          <ul className={styles.flightMeta}>
+            {stay.phone.map((p) => (
+              <li key={p}>{p}</li>
+            ))}
+            <li>{stay.email}</li>
+            <li>Guest on booking: {stay.guestName}</li>
+          </ul>
+        </div>
+      </div>
+
+      <ul className={styles.flightMeta}>
+        <li>{stay.included.join(" · ")}</li>
+        <li>Total {stay.total}</li>
+        <li>{stay.payment}</li>
+      </ul>
+
+      {stay.notes.length > 0 && (
+        <ul className={styles.list}>
+          {stay.notes.map((n) => (
+            <li key={n}>{n}</li>
+          ))}
+        </ul>
+      )}
+
+      <a className={styles.pdfBtn} href={stay.pdfUrl} download>
+        {stay.pdfLabel}
+      </a>
+    </div>
+  );
+}
 
 function TrainCard({ train }: { train: TrainInfo }) {
   return (
@@ -348,6 +427,8 @@ export default function Home() {
               )}
 
               {selected.train && <TrainCard train={selected.train} />}
+
+              {selected.stay && <StayCard stay={selected.stay} />}
 
               <div className={styles.twoCol}>
                 <div>

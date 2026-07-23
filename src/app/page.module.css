@@ -569,6 +569,26 @@
   background: rgba(7, 16, 24, 0.45);
 }
 
+.stay {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.15rem 1.2rem;
+  margin-bottom: 1.5rem;
+  background: rgba(7, 16, 24, 0.45);
+}
+
+.stayGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1.25rem;
+  margin-bottom: 1.15rem;
+}
+
+.stayValue {
+  font-weight: 600;
+  line-height: 1.4;
+}
+
 .stationBlock {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1034,13 +1054,15 @@
   }
 
   .twoCol,
-  .stationBlock {
+  .stationBlock,
+  .stayGrid {
     grid-template-columns: 1fr;
     gap: 1.15rem;
   }
 
   .flight,
-  .train {
+  .train,
+  .stay {
     padding: 1rem;
   }
 

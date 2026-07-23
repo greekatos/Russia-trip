@@ -54,6 +54,29 @@ export type TrainInfo = {
   pdfLabel: string;
 };
 
+export type StayInfo = {
+  name: string;
+  address: string;
+  mapsUrl: string;
+  checkIn: string;
+  checkOut: string;
+  nights: number;
+  guests: number;
+  rooms: number;
+  roomType: string;
+  bookingNo: string;
+  accessCode: string;
+  guestName: string;
+  phone: string[];
+  email: string;
+  included: string[];
+  total: string;
+  payment: string;
+  notes: string[];
+  pdfUrl: string;
+  pdfLabel: string;
+};
+
 export type Quest = {
   id: string;
   title: string;
@@ -76,6 +99,7 @@ export type DayStop = {
   todos: string[];
   flight?: FlightInfo;
   train?: TrainInfo;
+  stay?: StayInfo;
   crewIds?: string[];
   status: "confirmed" | "planned" | "tbd";
 };
@@ -181,6 +205,35 @@ export const yekIrkutskTrain: TrainInfo = {
   ],
   pdfUrl: "/tickets/yekaterinburg-irkutsk.pdf",
   pdfLabel: "Download Yek → Irkutsk ticket PDF",
+};
+
+export const yekaterinburgHotel: StayInfo = {
+  name: 'Hotel "Sverdlova 27"',
+  address: "ul. Sverdlova, 27, Zheleznodorozhny, Ekaterinburg",
+  mapsUrl: "https://yandex.com/maps/?pt=60.603778,56.854082&z=17&l=map",
+  checkIn: "10 Aug 2026 · after 14:00",
+  checkOut: "11 Aug 2026 · till 12:00",
+  nights: 1,
+  guests: 4,
+  rooms: 1,
+  roomType: 'Room "Studio"',
+  bookingNo: "20260810-3652-452541120",
+  accessCode: "R69JWDN",
+  guestName: "Dimosthenis Minas",
+  phone: ["+7 (343) 354-05-10", "+7 (343) 370-33-32", "+7 (902) 500-22-32"],
+  email: "hotelsverdlova27@mail.ru",
+  included: ["Continental breakfast ×4", "Main line-rate"],
+  total: "13,600 RUB",
+  payment: "NOT PAID YET — pay at the hotel on check-in (13,600 RUB)",
+  notes: [
+    "We have not paid this accommodation yet. Pay 13,600 RUB there at check-in.",
+    "GPS: 56.854082, 60.603778 — close to the railway area.",
+    "We arrive by train 21:34 on 10 Aug — check-in window starts 14:00, so late arrival is fine.",
+    "Checkout 12:00 on 11 Aug · night train to Irkutsk leaves 21:58 same day.",
+    "Booked on the official Hotel Sverdlova 27 site via TravelLine.",
+  ],
+  pdfUrl: "/tickets/yekaterinburg-hotel.pdf",
+  pdfLabel: "Download Yekaterinburg hotel confirmation PDF",
 };
 
 export const irkutskUlaanbaatarTrain: TrainInfo = {
@@ -297,9 +350,10 @@ export const trip: Trip = {
     {
       id: "yek-housing",
       title: "Housing — Yekaterinburg",
-      detail: "No housing yet for the whole crew in Yekaterinburg.",
+      detail:
+        'Booked. Hotel "Sverdlova 27" · not paid yet — pay 13,600 RUB at check-in · 10 Aug after 14:00 → 11 Aug 12:00 · booking 20260810-3652-452541120.',
       icon: "house",
-      status: "open",
+      status: "done",
     },
     {
       id: "irk-housing",
@@ -524,21 +578,24 @@ export const trip: Trip = {
       label: "Mon 10 Aug",
       city: "Yekaterinburg",
       country: "Russia",
-      title: "Roll into Yek — beds TBD",
+      title: "Roll into Yek — hotel locked",
       summary:
-        "Arrive Ekaterinburg-Passajirs 21:34. We still have to find a place to stay in this city.",
-      whereWeAre: "Yekaterinburg · housing PENDING",
-      status: "planned",
+        "Arrive Ekaterinburg-Passajirs 21:34, then walk/taxi to Hotel Sverdlova 27. One night for all four.",
+      whereWeAre: "Yekaterinburg · Hotel Sverdlova 27",
+      status: "confirmed",
       notes: [
-        "Station: Vokzalnaya 22 · metro Uralskaya.",
-        "PENDING: crash pad / hostel / host in Yekaterinburg.",
-        "Next train out is tomorrow evening (11 Aug 21:58) to Irkutsk.",
+        "Train in 21:34 · hotel check-in from 14:00 (late arrival OK).",
+        "Hotel: ul. Sverdlova 27 · booking 20260810-3652-452541120 · access code R69JWDN.",
+        "NOT PAID YET — pay 13,600 RUB at the hotel on check-in. Breakfast included.",
+        "Next train out tomorrow 21:58 to Irkutsk — checkout by 12:00.",
       ],
       todos: [
-        "PENDING: find a place to stay in Yekaterinburg",
-        "Get from station to wherever we’re sleeping",
+        "Pay 13,600 RUB at hotel check-in (not paid online)",
+        "Go hotel → drop bags",
+        "Keep booking number + access code handy",
       ],
       train: moscowYekTrain,
+      stay: yekaterinburgHotel,
     },
     {
       id: "day-10",
@@ -546,20 +603,23 @@ export const trip: Trip = {
       label: "Tue 11 Aug",
       city: "Yek → Irkutsk",
       country: "Russia",
-      title: "Night train #2 — deep Siberia",
+      title: "Checkout · night train #2",
       summary:
-        "Short Yek window, then train 082ИА at 21:58. Three nights on the rails to Irkutsk.",
+        "Hotel checkout by 12:00. Evening train 082ИА at 21:58 toward Irkutsk.",
       whereWeAre: "Yekaterinburg → boarding 082ИА",
       status: "confirmed",
       notes: [
+        "Hotel Sverdlova 27 checkout till 12:00.",
         "Depart Ekaterinburg-Passajirs 21:58 · arrive Irkutsk Pass 06:20 on 14 Aug.",
         "Car 10 · seats 014 / 016 / 018 / 020 (all upper).",
       ],
       todos: [
+        "Checkout by 12:00",
         "Be at the station early evening",
         "Snacks + water for the long haul",
       ],
       train: yekIrkutskTrain,
+      stay: yekaterinburgHotel,
     },
     {
       id: "day-11",
