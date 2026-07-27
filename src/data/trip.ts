@@ -274,6 +274,37 @@ export const beijingHotel: StayInfo = {
   pdfLabel: "Download Beijing hotel confirmation PDF",
 };
 
+export const saintPetersburgHotel: StayInfo = {
+  name: "Piter Living quarters",
+  address: "Bolshoi prospect Petrogradskoy storony, 4, Saint Petersburg, Russia",
+  mapsUrl:
+    "https://yandex.com/maps/?text=%D0%A1%D0%B0%D0%BD%D0%BA%D1%82-%D0%9F%D0%B5%D1%82%D0%B5%D1%80%D0%B1%D1%83%D1%80%D0%B3%2C%20%D0%91%D0%BE%D0%BB%D1%8C%D1%88%D0%BE%D0%B9%20%D0%BF%D1%80%D0%BE%D1%81%D0%BF%D0%B5%D0%BA%D1%82%20%D0%9F.%D0%A1.%2C%204",
+  checkIn: "02 Aug 2026 · from 14:00",
+  checkOut: "05 Aug 2026 · by 12:00",
+  nights: 3,
+  guests: 2,
+  rooms: 1,
+  roomType: "Standard Double · twin beds · no meals",
+  bookingNo: "Ostrovok / partner booking",
+  accessCode: "—",
+  guestName: "2 adults",
+  phone: ["+7 981 721-63-21"],
+  email: "otel.petrovskiy@mail.ru",
+  included: ["No meals included", "Keys handed at Bolshoi prospect P.S., 4"],
+  total: "₽ 11,997",
+  payment: "NOT PAID YET — pay ₽ 11,997 at check-in after arrival",
+  notes: [
+    "Booked via Ostrovok partner · pay at the hotel after arrival (no card needed to book).",
+    "This room is for 2 adults — confirm where the other two sleep.",
+    "Notify the hotel one day before arrival and get check-in instructions.",
+    "If arriving after 21:00, tell them in advance.",
+    "Free cancellation until 1 Aug 2026 14:00 (UTC+3).",
+    "Support: Ostrovok hi@ostrovok.ru · SPb +7 812 424-36-43.",
+  ],
+  pdfUrl: "/tickets/saint-petersburg-hotel.pdf",
+  pdfLabel: "Download Saint Petersburg booking PDF",
+};
+
 export const irkutskUlaanbaatarTrain: TrainInfo = {
   label: "Border run → Mongolia",
   trainNumber: "306ЫА",
@@ -373,9 +404,10 @@ export const trip: Trip = {
     {
       id: "spb-housing",
       title: "Housing — Saint Petersburg",
-      detail: "No housing yet for the whole crew in Saint Petersburg.",
+      detail:
+        "Booked for 2 adults. Piter Living · Bolshoi prospect P.S. 4 · 2–5 Aug · pay ₽ 11,997 at check-in · confirm plan for the other 2.",
       icon: "house",
-      status: "open",
+      status: "done",
     },
     {
       id: "msk-housing",
@@ -447,20 +479,23 @@ export const trip: Trip = {
       label: "Sun 2 Aug",
       city: "Tallinn → SPb",
       country: "Estonia → Russia",
-      title: "Fly in. Bus out. No chill.",
+      title: "Fly in. Bus out. Hotel night 1",
       summary:
-        "Dawn flight into Tallinn, then immediately hunt the bus south to Saint Petersburg. Welcome to speedrun tourism.",
-      whereWeAre: "ATH → TLL → (pending) bus → Saint Petersburg",
+        "Dawn flight into Tallinn, bus to Saint Petersburg, then Piter Living (check-in from 14:00).",
+      whereWeAre: "ATH → TLL → bus → SPb · Piter Living",
       status: "planned",
       notes: [
-        "Flight is locked: BT818, land TLL 08:25.",
+        "Flight locked: BT818, land TLL 08:25.",
         "Same-day bus Tallinn → Saint Petersburg — still need to find & buy tickets.",
-        "Border day energy: docs ready, snacks ready, patience optional.",
+        "Hotel: Piter Living · Bolshoi prospect P.S. 4 · check-in from 14:00.",
+        "NOT PAID YET — pay ₽ 11,997 at check-in. Room is for 2 adults.",
+        "Message hotel one day before / if late after 21:00.",
       ],
       todos: [
         "PENDING: find + buy Tallinn → SPb bus (same day)",
+        "Notify hotel of arrival time",
+        "Pay ₽ 11,997 at check-in",
         "Boarding passes ready before the 04:40 ATH departure",
-        "Pack like the bus is unforgiving (cabin bag only on the flight)",
       ],
       flight: {
         bookingRef: "8K2Z4C",
@@ -484,6 +519,7 @@ export const trip: Trip = {
           "Panagiota Chnari",
         ],
       },
+      stay: saintPetersburgHotel,
     },
     {
       id: "day-02",
@@ -491,19 +527,17 @@ export const trip: Trip = {
       label: "Mon 3 Aug",
       city: "Saint Petersburg",
       country: "Russia",
-      title: "SPb day 1 — couch TBD",
+      title: "SPb · hotel night 2",
       summary:
-        "First full day in Saint Petersburg. Sleeping arrangements still a mystery novel Nadia is writing in real time.",
-      whereWeAre: "Saint Petersburg · beds: TBD (Nadia on it)",
-      status: "planned",
+        "Full day in Saint Petersburg. Staying at Piter Living (Bolshoi prospect P.S. 4).",
+      whereWeAre: "Saint Petersburg · Piter Living",
+      status: "confirmed",
       notes: [
-        "Stay window: ~3–4 days in SPb total.",
-        "Living status: none yet — Nadia checking free hosting options.",
+        "Hotel twin room for 2 · no meals included.",
+        "Confirm where the other two of the crew sleep tonight.",
       ],
-      todos: [
-        "PENDING: confirm free living / host in SPb (Nadia)",
-        "Drop a meetup pin once we know the neighborhood",
-      ],
+      todos: ["Drop meetup pin for the day"],
+      stay: saintPetersburgHotel,
     },
     {
       id: "day-03",
@@ -511,13 +545,19 @@ export const trip: Trip = {
       label: "Tue 4 Aug",
       city: "Saint Petersburg",
       country: "Russia",
-      title: "SPb day 2 — still floating",
-      summary:
-        "Walk the city, eat something loud, pretend we always knew where we were sleeping.",
-      whereWeAre: "Saint Petersburg",
-      status: "planned",
-      notes: ["Fill in must-sees once the crew votes."],
-      todos: ["Pick a big daytime mission (museum / canals / chaos)"],
+      title: "SPb · hotel night 3",
+      summary: "Last full night at Piter Living. Checkout tomorrow by 12:00.",
+      whereWeAre: "Saint Petersburg · Piter Living",
+      status: "confirmed",
+      notes: [
+        "Checkout tomorrow 05 Aug by 12:00.",
+        "Start locking SPb → Moscow train if not done.",
+      ],
+      todos: [
+        "PENDING: research / buy SPb → Moscow train",
+        "Pick a daytime mission",
+      ],
+      stay: saintPetersburgHotel,
     },
     {
       id: "day-04",
@@ -525,16 +565,20 @@ export const trip: Trip = {
       label: "Wed 5 Aug",
       city: "Saint Petersburg",
       country: "Russia",
-      title: "SPb day 3 — plot thickening",
+      title: "SPb checkout · next leg",
       summary:
-        "Deep in Peterburg mode. Start eyeing the Moscow train before it becomes a ‘we forgot’ meme.",
-      whereWeAre: "Saint Petersburg",
+        "Piter Living checkout by 12:00. Decide Moscow train timing from here.",
+      whereWeAre: "Saint Petersburg · checkout Piter Living",
       status: "planned",
-      notes: ["Aiming for 3–4 nights here — midpoint of the SPb arc."],
-      todos: [
-        "PENDING: research SPb → Moscow train options",
-        "Decide exact departure day (day 3 vs day 4)",
+      notes: [
+        "Hotel checkout by 12:00.",
+        "PENDING: SPb → Moscow train tickets if not booked.",
       ],
+      todos: [
+        "Checkout by 12:00",
+        "PENDING: buy SPb → Moscow train tickets",
+      ],
+      stay: saintPetersburgHotel,
     },
     {
       id: "day-05",
@@ -542,12 +586,12 @@ export const trip: Trip = {
       label: "Thu 6 Aug",
       city: "Saint Petersburg",
       country: "Russia",
-      title: "SPb day 4 · maybe exit",
+      title: "SPb buffer · maybe exit",
       summary:
-        "Buffer / leave day. If the train’s tonight, we roll. If not, one more Peterburg sunrise.",
+        "Hotel stay ended yesterday. Buffer / leave day toward Moscow.",
       whereWeAre: "Saint Petersburg → (maybe) Moscow train",
       status: "tbd",
-      notes: ["Flexible day — stay or ride depending on tickets + housing news."],
+      notes: ["Flexible day — stay or ride depending on train tickets."],
       todos: [
         "PENDING: buy SPb → Moscow train tickets",
         "Confirm Moscow arrival night plan",
