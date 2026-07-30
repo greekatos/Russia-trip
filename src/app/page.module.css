@@ -569,6 +569,16 @@
   background: rgba(7, 16, 24, 0.45);
 }
 
+.busLeg {
+  margin-top: 1.15rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.busLeg:first-of-type {
+  margin-top: 0.35rem;
+}
+
 .stay {
   border: 1px solid var(--line);
   border-radius: var(--radius);

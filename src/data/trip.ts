@@ -54,6 +54,29 @@ export type TrainInfo = {
   pdfLabel: string;
 };
 
+export type BusLeg = {
+  label: string;
+  line: string;
+  from: StationPin & { time: string; city: string };
+  to: StationPin & { time: string; city: string };
+  platform?: string;
+  seats: { name: string; seat: string; ticketNo: string }[];
+};
+
+export type BusInfo = {
+  label: string;
+  brand: string;
+  orderRef: string;
+  cartNo: string;
+  date: string;
+  travelTime: string;
+  total: string;
+  legs: BusLeg[];
+  notes: string[];
+  pdfUrl: string;
+  pdfLabel: string;
+};
+
 export type StayInfo = {
   name: string;
   address: string;
@@ -99,6 +122,7 @@ export type DayStop = {
   todos: string[];
   flight?: FlightInfo;
   train?: TrainInfo;
+  bus?: BusInfo;
   stay?: StayInfo;
   crewIds?: string[];
   status: "confirmed" | "planned" | "tbd";
@@ -139,6 +163,84 @@ const ULAANBAATAR: StationPin = {
   name: "Ulaanbaatar railway station",
   address: "Ulaanbaatar, Mongolia",
   mapsUrl: "https://yandex.com/maps/?text=Ulaanbaatar%20railway%20station",
+};
+
+const TALLINN_COACH: StationPin = {
+  name: "Tallinn Coach Station",
+  address: "Tallinn, Estonia",
+  mapsUrl: "https://yandex.com/maps/?text=Tallinn%20Coach%20Station",
+};
+
+const NARVA_BORDER: StationPin = {
+  name: "Narva–Ivangorod border",
+  address: "Narva / Ivangorod border crossing",
+  mapsUrl: "https://yandex.com/maps/?text=Narva-Ivangorod%20border",
+  metroTip: "Cross on foot with luggage, then board the next Lux Express bus.",
+};
+
+const SPB_COACH: StationPin = {
+  name: "St. Petersburg Coach Station",
+  address: "Saint Petersburg, Russia",
+  mapsUrl: "https://yandex.com/maps/?text=St.%20Petersburg%20Coach%20Station",
+};
+
+export const tallinnSpbBus: BusInfo = {
+  label: "Lux Express · border change",
+  brand: "Lux Express",
+  orderRef: "Tickets 260730835420 · 260730977958",
+  cartNo: "260730913350",
+  date: "Sun 02.08.2026",
+  travelTime: "Tallinn 11:30 → SPb 19:30 · ~8h with border walk",
+  total: "€46.40 per person (paid)",
+  legs: [
+    {
+      label: "Coupon 1/2 · Estonia",
+      line: "347/915 (Tallinn–Jõhvi–Narva border)",
+      platform: "Platform 2",
+      from: { ...TALLINN_COACH, city: "Tallinn", time: "11:30" },
+      to: { ...NARVA_BORDER, city: "Narva border", time: "15:00" },
+      seats: [
+        {
+          name: "Dimosthenis Minas",
+          seat: "26",
+          ticketNo: "260730835420",
+        },
+        {
+          name: "Antonios Lymperis",
+          seat: "25",
+          ticketNo: "260730977958",
+        },
+      ],
+    },
+    {
+      label: "Coupon 2/2 · Russia",
+      line: "0337 (Narva–Ivangorod border → STP)",
+      from: { ...NARVA_BORDER, city: "Narva border", time: "16:30" },
+      to: { ...SPB_COACH, city: "Saint Petersburg", time: "19:30" },
+      seats: [
+        {
+          name: "Dimosthenis Minas",
+          seat: "25",
+          ticketNo: "260730835420",
+        },
+        {
+          name: "Antonios Lymperis",
+          seat: "23",
+          ticketNo: "260730977958",
+        },
+      ],
+    },
+  ],
+  notes: [
+    "Booked for Dimos + Antonios only. Confirm Nadia + Giota bus / transport.",
+    "Bus change at the border: walk across with luggage, then continue on another Lux Express bus.",
+    "Land TLL 08:25 · bus leaves Tallinn Coach Station 11:30 (Platform 2).",
+    "Arrive St. Petersburg Coach Station 19:30 · hotel check-in from 14:00 (late OK).",
+    "Carrier: Lux Express Estonia AS · +372 680 0909 · info@luxexpress.eu",
+    "Border info: https://luxexpress.eu/en/news/travel-info",
+  ],
+  pdfUrl: "/tickets/tallinn-spb-bus.pdf",
+  pdfLabel: "Download Tallinn → SPb bus tickets PDF",
 };
 
 export const moscowYekTrain: TrainInfo = {
@@ -305,6 +407,41 @@ export const saintPetersburgHotel: StayInfo = {
   pdfLabel: "Download Saint Petersburg booking PDF",
 };
 
+export const moscowHotel: StayInfo = {
+  name: "Dom palomnika Agios Hotel",
+  address: "ulitsa Vorontsovo pole, 16/4, Moscow, Russia",
+  mapsUrl:
+    "https://yandex.com/maps/?text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D1%83%D0%BB%D0%B8%D1%86%D0%B0%20%D0%92%D0%BE%D1%80%D0%BE%D0%BD%D1%86%D0%BE%D0%B2%D0%BE%20%D0%BF%D0%BE%D0%BB%D0%B5%2C%2016%2F4",
+  checkIn: "05 Aug 2026 · from 14:00",
+  checkOut: "09 Aug 2026 · by 12:00",
+  nights: 4,
+  guests: 2,
+  rooms: 1,
+  roomType: "Standard Superior Double · twin beds · no meals",
+  bookingNo: "Ostrovok / partner booking",
+  accessCode: "—",
+  guestName: "Dimos + Antonios (2 adults)",
+  phone: ["+7 985 007-03-30"],
+  email: "info@agioshotel.ru",
+  included: [
+    "No meals included",
+    "Front desk 24/7",
+    "Extra bed 500 RUB/night if needed (confirm on spot)",
+  ],
+  total: "₽ 15,960",
+  payment: "NOT PAID YET — pay ₽ 15,960 at check-in after arrival",
+  notes: [
+    "For Dimos + Antonios. Nadia + Giota stay at Shen’s.",
+    "Booked via Ostrovok partner · pay at the hotel after arrival (no card needed to book).",
+    "Free cancellation until 5 Aug 2026 00:00 (UTC+3).",
+    "Accounting docs: payment via QR code if needed.",
+    "Checkout 09 Aug by 12:00 · train to Yek leaves Yaroslavsky 13:20 same day.",
+    "Support: Ostrovok hi@ostrovok.ru · Moscow +7 499 215-65-25.",
+  ],
+  pdfUrl: "/tickets/moscow-hotel.pdf",
+  pdfLabel: "Download Moscow hotel booking PDF",
+};
+
 export const irkutskUlaanbaatarTrain: TrainInfo = {
   label: "Border run → Mongolia",
   trainNumber: "306ЫА",
@@ -402,6 +539,14 @@ export const trip: Trip = {
   ],
   quests: [
     {
+      id: "bus-tll-spb",
+      title: "Bus — Tallinn → Saint Petersburg",
+      detail:
+        "Booked (Dimos + Antonios). Lux Express · Tallinn 11:30 → SPb 19:30 · border change on foot · cart 260730913350.",
+      icon: "ticket",
+      status: "done",
+    },
+    {
       id: "spb-housing",
       title: "Housing — Saint Petersburg",
       detail:
@@ -413,9 +558,9 @@ export const trip: Trip = {
       id: "msk-housing",
       title: "Housing — Moscow (Dimos + Antonios)",
       detail:
-        "Nadia and Giota stay at Shen’s. Dimos and Antonios still have no housing in Moscow.",
+        "Booked. Dom palomnika Agios Hotel · Vorontsovo pole 16/4 · 5–9 Aug · pay ₽ 15,960 at check-in. Nadia + Giota @ Shen.",
       icon: "house",
-      status: "open",
+      status: "done",
     },
     {
       id: "yek-housing",
@@ -479,23 +624,24 @@ export const trip: Trip = {
       label: "Sun 2 Aug",
       city: "Tallinn → SPb",
       country: "Estonia → Russia",
-      title: "Fly in. Bus out. Hotel night 1",
+      title: "Fly in. Bus locked. Hotel night 1",
       summary:
-        "Dawn flight into Tallinn, bus to Saint Petersburg, then Piter Living (check-in from 14:00).",
-      whereWeAre: "ATH → TLL → bus → SPb · Piter Living",
-      status: "planned",
+        "Flight ATH→TLL 04:40–08:25, then Lux Express Tallinn 11:30 → SPb 19:30 (border change). Hotel from 14:00.",
+      whereWeAre: "ATH → TLL → Lux Express → SPb · Piter Living",
+      status: "confirmed",
       notes: [
         "Flight locked: BT818, land TLL 08:25.",
-        "Same-day bus Tallinn → Saint Petersburg — still need to find & buy tickets.",
+        "Bus locked (Dimos + Antonios): Tallinn Coach Station 11:30 Platform 2 → SPb 19:30.",
+        "Border walk at Narva–Ivangorod · second bus 16:30.",
         "Hotel: Piter Living · Bolshoi prospect P.S. 4 · check-in from 14:00.",
-        "NOT PAID YET — pay ₽ 11,997 at check-in. Room is for 2 adults.",
-        "Message hotel one day before / if late after 21:00.",
+        "NOT PAID YET — hotel ₽ 11,997 at check-in. Room is for 2 adults.",
+        "Confirm Nadia + Giota bus / how they reach SPb.",
       ],
       todos: [
-        "PENDING: find + buy Tallinn → SPb bus (same day)",
-        "Notify hotel of arrival time",
-        "Pay ₽ 11,997 at check-in",
-        "Boarding passes ready before the 04:40 ATH departure",
+        "Land TLL · get to Tallinn Coach Station for 11:30",
+        "PDF bus tickets + passports for border",
+        "Notify hotel of ~19:30 arrival",
+        "Pay ₽ 11,997 at hotel check-in",
       ],
       flight: {
         bookingRef: "8K2Z4C",
@@ -519,6 +665,7 @@ export const trip: Trip = {
           "Panagiota Chnari",
         ],
       },
+      bus: tallinnSpbBus,
       stay: saintPetersburgHotel,
     },
     {
@@ -563,39 +710,45 @@ export const trip: Trip = {
       id: "day-04",
       date: "2026-08-05",
       label: "Wed 5 Aug",
-      city: "Saint Petersburg",
+      city: "SPb → Moscow",
       country: "Russia",
-      title: "SPb checkout · next leg",
+      title: "SPb checkout · Moscow hotel night 1",
       summary:
-        "Piter Living checkout by 12:00. Decide Moscow train timing from here.",
-      whereWeAre: "Saint Petersburg · checkout Piter Living",
-      status: "planned",
+        "Checkout Piter Living by 12:00. Dimos + Antonios check in Agios Hotel from 14:00. Nadia + Giota → Shen’s.",
+      whereWeAre: "Moscow · Agios Hotel (boys) · Shen (girls)",
+      status: "confirmed",
       notes: [
-        "Hotel checkout by 12:00.",
-        "PENDING: SPb → Moscow train tickets if not booked.",
+        "SPb checkout by 12:00.",
+        "Moscow hotel: Vorontsovo pole 16/4 · check-in from 14:00.",
+        "NOT PAID YET — pay ₽ 15,960 at Agios check-in.",
+        "Nadia + Giota: Shen’s place.",
       ],
       todos: [
-        "Checkout by 12:00",
-        "PENDING: buy SPb → Moscow train tickets",
+        "Checkout SPb by 12:00",
+        "Get to Moscow + Agios Hotel",
+        "Pay ₽ 15,960 at check-in",
       ],
-      stay: saintPetersburgHotel,
+      stay: moscowHotel,
+      crewIds: ["dimo", "antonios"],
     },
     {
       id: "day-05",
       date: "2026-08-06",
       label: "Thu 6 Aug",
-      city: "Saint Petersburg",
+      city: "Moscow",
       country: "Russia",
-      title: "SPb buffer · maybe exit",
+      title: "Moscow · hotel night 2",
       summary:
-        "Hotel stay ended yesterday. Buffer / leave day toward Moscow.",
-      whereWeAre: "Saint Petersburg → (maybe) Moscow train",
-      status: "tbd",
-      notes: ["Flexible day — stay or ride depending on train tickets."],
-      todos: [
-        "PENDING: buy SPb → Moscow train tickets",
-        "Confirm Moscow arrival night plan",
+        "City day. Boys at Dom palomnika Agios Hotel. Girls at Shen’s.",
+      whereWeAre: "Moscow · Agios Hotel",
+      status: "confirmed",
+      crewIds: ["dimo", "antonios"],
+      notes: [
+        "Hotel: Vorontsovo pole 16/4 · twin room for 2.",
+        "Train out still 09 Aug 13:20 from Yaroslavsky.",
       ],
+      todos: [],
+      stay: moscowHotel,
     },
     {
       id: "day-06",
@@ -603,19 +756,14 @@ export const trip: Trip = {
       label: "Fri 7 Aug",
       city: "Moscow",
       country: "Russia",
-      title: "Moscow landing",
-      summary:
-        "Capital arc begins. Nadia & Giota crash at Shen’s. Boys: pending host magic (Nadia already asked).",
-      whereWeAre: "Moscow · Nadia & Giota @ Shen · boys TBD",
-      status: "planned",
-      notes: [
-        "Nadia + Giota: staying with Shen.",
-        "Dimos + Antonios: Nadia asked if someone can host us too — waiting on the answer.",
-      ],
-      todos: [
-        "PENDING: confirm host for Dimos + Antonios in Moscow",
-        "Share Shen meetup details with the crew",
-      ],
+      title: "Moscow · hotel night 3",
+      summary: "Another Moscow day at Agios Hotel.",
+      whereWeAre: "Moscow · Agios Hotel",
+      status: "confirmed",
+      crewIds: ["dimo", "antonios"],
+      notes: ["Nadia + Giota still at Shen’s."],
+      todos: [],
+      stay: moscowHotel,
     },
     {
       id: "day-07",
@@ -623,16 +771,19 @@ export const trip: Trip = {
       label: "Sat 8 Aug",
       city: "Moscow",
       country: "Russia",
-      title: "Moscow day — roam mode",
+      title: "Moscow · last full hotel night",
       summary:
-        "City day. Tomorrow we leave from Yaroslavsky at 13:20 — know how to get there.",
-      whereWeAre: "Moscow",
-      status: "planned",
+        "Checkout tomorrow by 12:00. Train 070ЯА leaves Yaroslavsky 13:20.",
+      whereWeAre: "Moscow · Agios Hotel",
+      status: "confirmed",
+      crewIds: ["dimo", "antonios"],
       notes: [
-        "Tomorrow: train 070ЯА Moscow → Yekaterinburg.",
-        "Yaroslavsky station · Komsomolskaya metro.",
+        "Tomorrow: hotel checkout by 12:00.",
+        "Tomorrow: train 070ЯА Moscow → Yekaterinburg at 13:20.",
+        "Yaroslavsky · metro Komsomolskaya.",
       ],
-      todos: ["Scout route to Yaroslavsky / metro Komsomolskaya"],
+      todos: ["Scout route to Yaroslavsky"],
+      stay: moscowHotel,
     },
     {
       id: "day-08",
@@ -640,20 +791,23 @@ export const trip: Trip = {
       label: "Sun 9 Aug",
       city: "Moscow → Yek",
       country: "Russia",
-      title: "First big train — Trans-Sib ignition",
+      title: "Checkout · first big train",
       summary:
-        "We leave Moscow Yaroslavsky at 13:20 on train 070ЯА. Next stop: Yekaterinburg tomorrow night.",
+        "Agios checkout by 12:00. Leave Yaroslavsky 13:20 on train 070ЯА toward Yekaterinburg.",
       whereWeAre: "On train 070ЯА · Moscow → Yekaterinburg",
       status: "confirmed",
       notes: [
+        "Hotel checkout by 12:00.",
         "Depart Yaroslavsky 13:20 · arrive Ekaterinburg-Passajirs 21:34 next day.",
         "Car 02, four of us in one compartment.",
       ],
       todos: [
+        "Checkout hotel by 12:00",
         "Be at the station ~12:40",
         "PDF / phone tickets ready + passports",
       ],
       train: moscowYekTrain,
+      stay: moscowHotel,
     },
     {
       id: "day-09",

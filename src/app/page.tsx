@@ -4,12 +4,119 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   getActiveDay,
   trip,
+  type BusInfo,
   type DayStop,
   type Quest,
   type StayInfo,
   type TrainInfo,
 } from "@/data/trip";
 import styles from "./page.module.css";
+
+function BusCard({ bus }: { bus: BusInfo }) {
+  return (
+    <div className={styles.train}>
+      <div className={styles.flightTop}>
+        <span>{bus.label}</span>
+        <strong>{bus.brand}</strong>
+        <span className={styles.flightRef}>Cart {bus.cartNo}</span>
+      </div>
+
+      <ul className={styles.flightMeta}>
+        <li>{bus.date}</li>
+        <li>{bus.travelTime}</li>
+        <li>{bus.total}</li>
+        <li>{bus.orderRef}</li>
+      </ul>
+
+      {bus.legs.map((leg) => (
+        <div key={leg.label} className={styles.busLeg}>
+          <h4 className={styles.blockTitle}>{leg.label}</h4>
+          <p className={styles.stayValue}>
+            {leg.line}
+            {leg.platform ? ` · ${leg.platform}` : ""}
+          </p>
+
+          <div className={styles.flightRoute}>
+            <div>
+              <span className={styles.flightTime}>{leg.from.time}</span>
+              <span className={styles.flightCity}>{leg.from.city}</span>
+              <span className={styles.flightCode}>{leg.from.name}</span>
+            </div>
+            <div className={styles.flightLine} aria-hidden>
+              <span />
+            </div>
+            <div>
+              <span className={styles.flightTime}>{leg.to.time}</span>
+              <span className={styles.flightCity}>{leg.to.city}</span>
+              <span className={styles.flightCode}>{leg.to.name}</span>
+            </div>
+          </div>
+
+          <div className={styles.stationBlock}>
+            <div>
+              <h4 className={styles.blockTitle}>Depart</h4>
+              <p className={styles.stationName}>{leg.from.name}</p>
+              <p className={styles.stationAddr}>{leg.from.address}</p>
+              {leg.from.metroTip && (
+                <p className={styles.stationTip}>{leg.from.metroTip}</p>
+              )}
+              <a
+                className={styles.mapLink}
+                href={leg.from.mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open in Yandex Maps
+              </a>
+            </div>
+            <div>
+              <h4 className={styles.blockTitle}>Arrive</h4>
+              <p className={styles.stationName}>{leg.to.name}</p>
+              <p className={styles.stationAddr}>{leg.to.address}</p>
+              {leg.to.metroTip && (
+                <p className={styles.stationTip}>{leg.to.metroTip}</p>
+              )}
+              <a
+                className={styles.mapLink}
+                href={leg.to.mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open in Yandex Maps
+              </a>
+            </div>
+          </div>
+
+          <div className={styles.seatsBlock}>
+            <h4 className={styles.blockTitle}>Seats</h4>
+            <ul className={styles.seatList}>
+              {leg.seats.map((s) => (
+                <li key={`${leg.label}-${s.name}-${s.seat}`}>
+                  <span>{s.name}</span>
+                  <span>
+                    Seat {s.seat} · Ticket {s.ticketNo}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ))}
+
+      {bus.notes.length > 0 && (
+        <ul className={styles.list}>
+          {bus.notes.map((n) => (
+            <li key={n}>{n}</li>
+          ))}
+        </ul>
+      )}
+
+      <a className={styles.pdfBtn} href={bus.pdfUrl} download>
+        {bus.pdfLabel}
+      </a>
+    </div>
+  );
+}
 
 function StayCard({ stay }: { stay: StayInfo }) {
   return (
@@ -427,6 +534,8 @@ export default function Home() {
               )}
 
               {selected.train && <TrainCard train={selected.train} />}
+
+              {selected.bus && <BusCard bus={selected.bus} />}
 
               {selected.stay && <StayCard stay={selected.stay} />}
 
